@@ -1,0 +1,3 @@
+[submodule "food-ordering-website"]
+    path = food-ordering-website
+    url = https://github.com/ElvisC122/food-ordering-website.git
