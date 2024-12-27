@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食物訂購網站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .menu-category {
+            margin: 20px 0;
+        }
+        .menu-item {
+            margin: 5px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>食物訂購網站</h1>
+
+    <div class="menu-category">
+        <h2>主菜 (可選擇多個)</h2>
+        <div class="menu-item"><input type="checkbox" id="dishA" name="mainDish" value="香煎三文魚"> <label for="dishA">香煎三文魚</label></div>
+        <div class="menu-item"><input type="checkbox" id="dishB" name="mainDish" value="意大利肉醬麵"> <label for="dishB">意大利肉醬麵</label></div>
+        <div class="menu-item"><input type="checkbox" id="dishC" name="mainDish" value="泰式綠咖哩雞"> <label for="dishC">泰式綠咖哩雞</label></div>
+    </div>
+
+    <div class="menu-category">
+        <h2>配料 (可選擇多個)</h2>
+        <div class="menu-item"><input type="checkbox" id="toppingC" name="topping" value="新鮮香草"> <label for="toppingC">新鮮香草</label></div>
+        <div class="menu-item"><input type="checkbox" id="toppingD" name="topping" value="起司"> <label for="toppingD">起司</label></div>
+        <div class="menu-item"><input type="checkbox" id="toppingE" name="topping" value="辣椒醬"> <label for="toppingE">辣椒醬</label></div>
+    </div>
+
+    <div class="menu-category">
+        <h2>飲品 (可選擇多個)</h2>
+        <div class="menu-item"><input type="checkbox" id="drinkF" name="drink" value="檸檬水"> <label for="drinkF">檸檬水</label></div>
+        <div class="menu-item"><input type="checkbox" id="drinkG" name="drink" value="紅茶"> <label for="drinkG">紅茶</label></div>
+        <div class="menu-item"><input type="checkbox" id="drinkH" name="drink" value="鮮榨果汁"> <label for="drinkH">鮮榨果汁</label></div>
+    </div>
+
+    <!-- 提交訂單按鈕 -->
+    <button onclick="submitOrder()">提交訂單</button>
+
+    <script>
+        function submitOrder() {
+            let mainDishes = [];
+            let toppings = [];
+            let drinks = [];
+
+            // 獲取主菜選擇
+            const mainDishCheckboxes = document.querySelectorAll('input[name="mainDish"]:checked');
+            mainDishCheckboxes.forEach((checkbox) => {
+                mainDishes.push(checkbox.value);
+            });
+
+            // 獲取配料選擇
+            const toppingCheckboxes = document.querySelectorAll('input[name="topping"]:checked');
+            toppingCheckboxes.forEach((checkbox) => {
+                toppings.push(checkbox.value);
+            });
+
+            // 獲取飲品選擇
+            const drinkCheckboxes = document.querySelectorAll('input[name="drink"]:checked');
+            drinkCheckboxes.forEach((checkbox) => {
+                drinks.push(checkbox.value);
+            });
+
+            // 構建訂單信息
+            const orderInfo = {
+                mainDishes: mainDishes.join(", "),
+                toppings: toppings.join(", "),
+                drinks: drinks.join(", ")
+            };
+
+            // 在這裡顯示訂單信息（或發送到伺服器）
+            alert("您的訂單已提交！\n主菜: " + orderInfo.mainDishes + "\n配料: " + orderInfo.toppings + "\n飲品: " + orderInfo.drinks);
+            
+            // 如果需要，你可以將訂單信息發送到一個伺服器進行處理
+        }
+    </script>
+
+</body>
+</html>
+
