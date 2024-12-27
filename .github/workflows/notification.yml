@@ -1,0 +1,17 @@
+name: Notify on Food Order
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Send notification
+        run: |
+          echo "Order received!" | mail -s "New Food Order" chengmuntong@gmail.com
