@@ -6,16 +6,22 @@
     <title>食物訂購網站</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            color: #333;
+            font-family: 'Arial', sans-serif; /* 字體 */
+            background-color: #f0f8ff; /* 背景顏色 */
+            color: #333; /* 文字顏色 */
             padding: 20px;
         }
         h1 {
             text-align: center;
+            colour: #2c3e50;/* 標題顏色 */
+            font-size: 36px;
         }
-        .menu-category {
+         .menu-category {
             margin: 20px 0;
+            border: 1px solid #ccc; /* 邊框 */
+            padding: 10px;
+            border-radius: 10px; /* 圓角邊框 */
+            background-color: #ffffff; /* 類別背景顏色 */
         }
         .menu-item {
             margin: 5px 0;
@@ -27,7 +33,10 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 18px;
         }
+        button:hover {
+            background-color: #2980b9; /* 懸停時按鈕顏色 */
     </style>
 </head>
 <body>
@@ -57,6 +66,8 @@
 
     <!-- 提交訂單按鈕 -->
     <button onclick="submitOrder()">提交訂單</button>
+    <!-- 發送按鈕 -->
+    <button onclick="sendEmail()">發送選擇</button>
 
     <script>
         function submitOrder() {
@@ -93,6 +104,7 @@
             alert("您的訂單已提交！\n主菜: " + orderInfo.mainDishes + "\n配料: " + orderInfo.toppings + "\n飲品: " + orderInfo.drinks);
             
             // 如果需要，你可以將訂單信息發送到一個伺服器進行處理
+            
         }
     </script>
 
