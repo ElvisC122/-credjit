@@ -13,10 +13,10 @@
         }
         h1 {
             text-align: center;
-            color: white;/* 標題顏色 */
+            color: white; /* 標題顏色 */
             font-size: 40px;
         }
-         .menu-category {
+        .menu-category {
             margin: 20px 0;
             border: 1px solid #ccc; /* 邊框 */
             padding: 10px;
@@ -37,6 +37,7 @@
         }
         button:hover {
             background-color: #2980b9; /* 懸停時按鈕顏色 */
+        }
     </style>
 </head>
 <body>
@@ -67,7 +68,7 @@
     <!-- 提交訂單按鈕 -->
     <button onclick="submitOrder()">提交訂單</button>
     <!-- 發送按鈕 -->
-    <button onclick="sendEmail()">發送選擇</button>
+    <button onclick="sendOrder()">發送選擇</button>
 
     <script>
         function submitOrder() {
@@ -102,12 +103,58 @@
 
             // 在這裡顯示訂單信息（或發送到伺服器）
             alert("您的訂單已提交！\n主菜: " + orderInfo.mainDishes + "\n配料: " + orderInfo.toppings + "\n飲品: " + orderInfo.drinks);
-            
-            // 如果需要，你可以將訂單信息發送到一個伺服器進行處理
-            
+        }
+
+        async function sendOrder() {
+            let mainDishes = [];
+            let toppings = [];
+            let drinks = [];
+
+            // 獲取主菜選擇
+            const mainDishCheckboxes = document.querySelectorAll('input[name="mainDish"]:checked');
+            mainDishCheckboxes.forEach((checkbox) => {
+                mainDishes.push(checkbox.value);
+            });
+
+            // 獲取配料選擇
+            const toppingCheckboxes = document.querySelectorAll('input[name="topping"]:checked');
+            toppingCheckboxes.forEach((checkbox) => {
+                toppings.push(checkbox.value);
+            });
+
+            // 獲取飲品選擇
+            const drinkCheckboxes = document.querySelectorAll('input[name="drink"]:checked');
+            drinkCheckboxes.forEach((checkbox) => {
+                drinks.push(checkbox.value);
+            });
+
+            // 構建訂單信息
+            const orderInfo = {
+                mainDishes: mainDishes.join(", "),
+                toppings: toppings.join(", "),
+                drinks: drinks.join(", ")
+            };
+
+            // 發送訂單信息到 GitHub Actions
+            const response = await fetch('https://api.github.com/repos/ElvisC122/food-ordering-website/actions/workflows/send-email.yml/dispatches', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Authorization': 'token YOUR_GITHUB_TOKEN'
+                },
+                body: JSON.stringify({
+                    event_type: 'send-email',
+                    client_payload: orderInfo
+                })
+            });
+
+            if (response.ok) {
+                alert('選擇已發送到你的郵箱！');
+            } else {
+                alert('發送郵件時出錯。');
+            }
         }
     </script>
 
 </body>
 </html>
-
