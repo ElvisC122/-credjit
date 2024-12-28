@@ -136,7 +136,7 @@
             };
 
             // 發送訂單信息到 GitHub Actions
-            const response = await fetch('https://api.github.com/repos/ElvisC122/food-ordering-website/actions/workflows/send-email.yml/dispatches', {
+            const response = await fetch('https://api.github.com/repos/ElvisC122/food-ordering-website/actions/workflows/notification.yml/dispatches', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/vnd.github.v3+json',
