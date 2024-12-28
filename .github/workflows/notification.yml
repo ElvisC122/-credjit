@@ -35,7 +35,7 @@ jobs:
 
           const mailOptions = {
             from: process.env.EMAIL,
-            to: 'your-email@example.com',
+            to: 'chengmuntong@gmail.com',
             subject: '棠棠揀嘢食 訂單',
             text: orderInfo
           };
