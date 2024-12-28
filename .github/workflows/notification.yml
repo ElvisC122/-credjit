@@ -1,21 +1,55 @@
-name: Notify on Food Order
+name: Send Order Email
 
 on:
-  push:
-    branches:
-      - main
+  repository_dispatch:
+    types: [send-email]
 
 jobs:
-  notify:
-    runs-on: ubuntu-24.04
+  send_email:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install mailutils
-        run: sudo apt-get update && sudo apt-get install -y mailutils
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-      - name: Send notification
+      - name: Install dependencies
+        run: npm install nodemailer
+
+      - name: Send email
         run: |
-          echo "Order received!" | mail -s "New Food Order" chengmuntong@gmail.com
+          const nodemailer = require('nodemailer');
+          const orderInfo = process.env.ORDER_INFO;
+
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL,
+              pass: process.env.PASSWORD
+            }
+          });
+
+          const mailOptions = {
+            from: process.env.EMAIL,
+            to: 'your-email@example.com',
+            subject: '棠棠揀嘢食 訂單',
+            text: orderInfo
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.error('Error sending email:', error);
+            } else {
+              console.log('Email sent:', info.response);
+            }
+          });
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          ORDER_INFO: ${{ github.event.client_payload.mainDishes }},
+                      ${{ github.event.client_payload.toppings }},
+                      ${{ github.event.client_payload.drinks }}
