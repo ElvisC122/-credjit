@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>信用卡推薦助手 - 找到最適合您的信用卡</title>
+    <title>信用卡偏好评估助手</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50, #1a2a6c);
             color: #333;
             min-height: 100vh;
             padding: 20px;
@@ -25,136 +25,237 @@
         
         .container {
             width: 100%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.95);
+            max-width: 850px;
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
             overflow: hidden;
             margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
         }
         
         header {
             background: linear-gradient(to right, #1a2980, #26d0ce);
             color: white;
-            padding: 25px;
+            padding: 28px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
         }
         
         header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
+            font-size: 1.15rem;
+            opacity: 0.92;
+            max-width: 650px;
             margin: 0 auto;
+            position: relative;
+            line-height: 1.6;
         }
         
         .progress-container {
-            background: #e0e0e0;
-            height: 10px;
+            background: #e0e7ff;
+            height: 12px;
+            position: relative;
+            overflow: hidden;
         }
         
         .progress-bar {
             height: 100%;
             background: linear-gradient(to right, #00b09b, #96c93d);
             width: 0%;
-            transition: width 0.5s ease;
+            transition: width 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0) 100%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         .question-container {
-            padding: 30px;
-            min-height: 350px;
+            padding: 35px;
+            min-height: 380px;
+            position: relative;
         }
         
         .question {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .question h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: #1a2980;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
+            line-height: 1.4;
         }
         
         .question h3 i {
-            margin-right: 10px;
+            margin-right: 14px;
             color: #26d0ce;
+            font-size: 1.8rem;
+            min-width: 40px;
+            text-align: center;
         }
         
         .options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 15px;
         }
         
         .option {
-            background: #f5f9ff;
-            border: 2px solid #d0e4ff;
-            border-radius: 10px;
-            padding: 15px;
+            background: linear-gradient(to bottom, #f8faff, #edf4ff);
+            border: 2px solid #d5e3ff;
+            border-radius: 15px;
+            padding: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #1a2980;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
         }
         
         .option:hover {
-            background: #e1edff;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(26, 41, 128, 0.2);
             border-color: #1a2980;
-            transform: translateY(-3px);
+        }
+        
+        .option:hover::before {
+            transform: translateY(0);
         }
         
         .option.selected {
-            background: #d0e4ff;
+            background: linear-gradient(to bottom, #e1ebff, #d5e3ff);
             border-color: #1a2980;
-            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.2);
+            box-shadow: 0 8px 20px rgba(26, 41, 128, 0.25);
+        }
+        
+        .option.selected::before {
+            transform: translateY(0);
         }
         
         .option i {
-            font-size: 1.5rem;
-            margin-right: 10px;
+            font-size: 1.8rem;
+            margin-right: 15px;
             color: #1a2980;
+            min-width: 40px;
+            text-align: center;
+            padding-top: 5px;
+        }
+        
+        .option-content {
+            flex: 1;
+        }
+        
+        .option-content strong {
+            font-size: 1.15rem;
+            display: block;
+            margin-bottom: 8px;
+            color: #1a2980;
+        }
+        
+        .option-content p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
         }
         
         .button-container {
             display: flex;
             justify-content: space-between;
-            padding: 20px 30px;
-            background: #f8f9ff;
-            border-top: 1px solid #e0e0e0;
+            padding: 25px 35px;
+            background: #f5f9ff;
+            border-top: 1px solid #d0e0f0;
         }
         
         .btn {
-            padding: 12px 25px;
+            padding: 14px 32px;
             border: none;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         
         .btn i {
-            margin-right: 8px;
+            margin-right: 10px;
+            font-size: 1.1rem;
         }
         
         .btn-prev {
-            background: #f1f1f1;
+            background: linear-gradient(to right, #f1f1f1, #e0e0e0);
             color: #555;
         }
         
         .btn-prev:hover {
-            background: #e0e0e0;
+            background: linear-gradient(to right, #e0e0e0, #d0d0d0);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
         }
         
         .btn-next {
@@ -164,7 +265,8 @@
         
         .btn-next:hover {
             background: linear-gradient(to right, #15216d, #1fbdb8);
-            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+            box-shadow: 0 6px 15px rgba(26, 41, 128, 0.45);
+            transform: translateY(-2px);
         }
         
         .btn-submit {
@@ -174,143 +276,308 @@
         
         .btn-submit:hover {
             background: linear-gradient(to right, #009982, #7db32e);
-            box-shadow: 0 5px 15px rgba(0, 176, 155, 0.4);
+            box-shadow: 0 6px 15px rgba(0, 176, 155, 0.45);
+            transform: translateY(-2px);
         }
         
         .result-container {
-            padding: 40px;
+            padding: 40px 30px;
             text-align: center;
             display: none;
+            animation: fadeIn 0.8s ease-out;
         }
         
         .result-header {
             color: #1a2980;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            position: relative;
         }
         
         .result-header i {
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: #00b09b;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .result-header h2 {
+            font-size: 2.3rem;
             margin-bottom: 15px;
         }
         
+        .result-header p {
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+            color: #444;
+        }
+        
         .card-recommendation {
-            background: linear-gradient(to right, #f5f9ff, #e1edff);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 25px auto;
-            max-width: 500px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to bottom, #ffffff, #f8fbff);
+            border-radius: 18px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 700px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
             text-align: left;
-            border-left: 5px solid #1a2980;
+            border-left: 6px solid #1a2980;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-recommendation::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23d0e3ff" stroke-width="0.5" opacity="0.5"/></svg>');
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .card-type-tag {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .simple-tag {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            color: white;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .balanced-tag {
+            background: linear-gradient(to right, #2196F3, #0D47A1);
+            color: white;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+        }
+        
+        .max-tag {
+            background: linear-gradient(to right, #FF9800, #F57C00);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
         }
         
         .card-title {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             color: #1a2980;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-title i {
+            margin-right: 15px;
+            color: #26d0ce;
+            font-size: 1.8rem;
+        }
+        
+        .card-description {
+            font-size: 1.15rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.6;
+        }
+        
+        .card-benefits {
+            margin: 25px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-benefits h4 {
+            font-size: 1.3rem;
+            color: #1a2980;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
         }
         
-        .card-title i {
-            margin-right: 10px;
-            color: #26d0ce;
-        }
-        
-        .card-benefits {
-            margin: 20px 0;
+        .card-benefits h4 i {
+            margin-right: 12px;
+            color: #00b09b;
         }
         
         .benefit-item {
             display: flex;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            align-items: flex-start;
         }
         
         .benefit-item i {
             color: #00b09b;
-            margin-right: 10px;
+            margin-right: 14px;
             min-width: 24px;
+            font-size: 1.2rem;
+            padding-top: 4px;
+        }
+        
+        .benefit-text {
+            flex: 1;
+            font-size: 1.05rem;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .card-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-note i {
+            color: #ff9800;
+            margin-right: 10px;
         }
         
         .apply-btn {
             background: linear-gradient(to right, #ff8c00, #ff5500);
             color: white;
-            padding: 12px 30px;
+            padding: 16px 35px;
             border: none;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 15px;
+            margin-top: 20px;
             width: 100%;
+            display: block;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
         }
         
         .apply-btn:hover {
             background: linear-gradient(to right, #e67e00, #e64d00);
-            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.5);
+            transform: translateY(-3px);
         }
         
         .restart-btn {
-            background: #1a2980;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
             color: white;
-            padding: 10px 20px;
+            padding: 14px 35px;
             border: none;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 30px;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.3);
+        }
+        
+        .restart-btn i {
+            margin-right: 10px;
         }
         
         .restart-btn:hover {
-            background: #15216d;
+            background: linear-gradient(to right, #15216d, #1fbdb8);
+            box-shadow: 0 8px 20px rgba(26, 41, 128, 0.4);
+            transform: translateY(-3px);
         }
         
         .footer {
-            color: white;
+            color: rgba(255, 255, 255, 0.85);
             text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            opacity: 0.8;
+            padding: 25px;
+            font-size: 0.95rem;
+            max-width: 800px;
+            line-height: 1.6;
         }
         
-        .card-type-tag {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin: 5px 0;
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
         }
         
-        .lazy-tag {
-            background: linear-gradient(to right, #4CAF50, #8BC34A);
-            color: white;
+        .footer a:hover {
+            color: #26d0ce;
+            border-bottom: 1px solid #26d0ce;
         }
         
-        .balanced-tag {
-            background: linear-gradient(to right, #2196F3, #03A9F4);
-            color: white;
-        }
-        
-        .enthusiast-tag {
-            background: linear-gradient(to right, #FF9800, #FF5722);
-            color: white;
-        }
-        
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .options {
                 grid-template-columns: 1fr;
             }
             
             .question-container, .result-container {
-                padding: 20px;
+                padding: 25px;
             }
             
             header h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
+            }
+            
+            .question h3 {
+                font-size: 1.35rem;
+            }
+            
+            .card-title {
+                font-size: 1.7rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            header h1 {
+                font-size: 1.7rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .question-container {
+                padding: 20px 15px;
+            }
+            
+            .option {
+                padding: 15px;
+            }
+            
+            .button-container {
+                padding: 20px 15px;
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
             }
         }
     </style>
@@ -318,8 +585,8 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-credit-card"></i> 信用卡推薦助手</h1>
-            <p>只需回答6條問題，我們將為您推薦最適合的信用卡</p>
+            <h1><i class="fas fa-credit-card"></i> 信用卡偏好评估助手</h1>
+            <p>只需回答6条简单问题，我们将根据您的消费习惯和使用偏好，推荐最适合您的信用卡组合</p>
         </header>
         
         <div class="progress-container">
@@ -331,27 +598,27 @@
         </div>
         
         <div class="button-container">
-            <button class="btn btn-prev" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> 上一題</button>
-            <button class="btn btn-next" id="nextBtn">下一題 <i class="fas fa-arrow-right"></i></button>
+            <button class="btn btn-prev" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> 上一题</button>
+            <button class="btn btn-next" id="nextBtn">下一题 <i class="fas fa-arrow-right"></i></button>
         </div>
         
         <div class="result-container" id="resultContainer">
             <div class="result-header">
                 <i class="fas fa-medal"></i>
-                <h2>為您推薦的最佳信用卡</h2>
-                <p>根據您的消費習慣和偏好，我們為您推薦以下信用卡：</p>
+                <h2>为您推荐的最佳信用卡</h2>
+                <p>根据您的消费习惯和使用偏好，我们为您推荐以下最适合的信用卡组合</p>
             </div>
             
-            <div class="card-recommendation" id="recommendedCard">
+            <div id="recommendedCard">
                 <!-- Recommendation will be inserted here -->
             </div>
             
-            <button class="restart-btn" id="restartBtn"><i class="fas fa-redo"></i> 重新開始</button>
+            <button class="restart-btn" id="restartBtn"><i class="fas fa-redo"></i> 重新开始评估</button>
         </div>
     </div>
     
     <div class="footer">
-        <p>© 2025 信用卡推薦助手 | 為您找到最合適的信用卡</p>
+        <p>© 2025 信用卡偏好评估助手 | 为不同消费习惯的用户提供个性化信用卡推荐 | <a href="#">隐私政策</a> | <a href="#">使用条款</a></p>
     </div>
 
     <script>
@@ -359,54 +626,54 @@
         const questions = [
             {
                 id: 1,
-                text: "您係「現金回贈」定「飛行里數」派？",
+                text: "您偏好哪种信用卡回馈方式？",
                 icon: "fas fa-money-bill-wave",
                 options: [
-                    { id: "cash", text: "現金回贈派", icon: "fas fa-coins", description: "喜歡直接獲得現金回贈" },
-                    { id: "miles", text: "飛行里數派", icon: "fas fa-plane", description: "喜歡累積飛行里數兌換機票" }
+                    { id: "cash", text: "现金回赠", icon: "fas fa-coins", description: "喜欢直接获得现金回赠" },
+                    { id: "miles", text: "飞行里数", icon: "fas fa-plane", description: "喜欢累积飞行里数兑换机票" }
                 ]
             },
             {
                 id: 2,
-                text: "你認為你是否懶人，還是願意花時間在卡上？",
+                text: "您偏好哪种信用卡管理方式？",
                 icon: "fas fa-user-clock",
                 options: [
-                    { id: "lazy", text: "懶人派", icon: "fas fa-couch", description: "希望簡單無腦，不想花時間管理多張卡" },
-                    { id: "balanced", text: "中間路線", icon: "fas fa-balance-scale", description: "願意花少量時間，但不想太複雜" },
-                    { id: "enthusiast", text: "卡L/卡仔", icon: "fas fa-brain", description: "願意花時間研究，追求最高回贈" }
+                    { id: "simple", text: "简单方便型", icon: "fas fa-sync-alt", description: "希望一卡搞定，无需复杂管理" },
+                    { id: "balanced", text: "平衡优化型", icon: "fas fa-tasks", description: "愿意花少量时间优化不同消费" },
+                    { id: "max", text: "极致回赠型", icon: "fas fa-chart-line", description: "愿意投入时间研究，追求最高回赠" }
                 ]
             },
             {
                 id: 3,
-                text: "您每月平均信用卡消費金額係？",
+                text: "您每月平均信用卡消费金额？",
                 icon: "fas fa-shopping-cart",
                 options: [
-                    { id: "low", text: "少於 HKD 5,000", icon: "fas fa-wallet", description: "每月消費低於5,000元" },
-                    { id: "medium", text: "HKD 5,000 - 15,000", icon: "fas fa-credit-card", description: "每月消費5,000-15,000元" },
-                    { id: "high", text: "HKD 15,000 - 30,000", icon: "fas fa-chart-line", description: "每月消費15,000-30,000元" },
-                    { id: "vhigh", text: "多於 HKD 30,000", icon: "fas fa-gem", description: "每月消費超過30,000元" }
+                    { id: "low", text: "少于 HKD 5,000", icon: "fas fa-wallet", description: "每月消费低于5,000元" },
+                    { id: "medium", text: "HKD 5,000 - 15,000", icon: "fas fa-credit-card", description: "每月消费5,000-15,000元" },
+                    { id: "high", text: "HKD 15,000 - 30,000", icon: "fas fa-chart-line", description: "每月消费15,000-30,000元" },
+                    { id: "vhigh", text: "多于 HKD 30,000", icon: "fas fa-gem", description: "每月消费超过30,000元" }
                 ]
             },
             {
                 id: 4,
-                text: "您最高消費嘅 3 個類別係？",
+                text: "您最高消费的三个类别是？",
                 icon: "fas fa-list",
                 options: [
-                    { id: "dining", text: "餐飲美食", icon: "fas fa-utensils", description: "餐廳、咖啡店等飲食消費" },
-                    { id: "groceries", text: "超市雜貨", icon: "fas fa-shopping-basket", description: "超市、日常用品購物" },
-                    { id: "travel", text: "旅遊消費", icon: "fas fa-suitcase-rolling", description: "機票、酒店、旅行團等" },
-                    { id: "online", text: "網上購物", icon: "fas fa-laptop", description: "網購、電子商務消費" },
+                    { id: "dining", text: "餐饮美食", icon: "fas fa-utensils", description: "餐厅、咖啡店等饮食消费" },
+                    { id: "groceries", text: "超市杂货", icon: "fas fa-shopping-basket", description: "超市、日常用品购物" },
+                    { id: "travel", text: "旅游消费", icon: "fas fa-suitcase-rolling", description: "机票、酒店、旅行团等" },
+                    { id: "online", text: "网上购物", icon: "fas fa-laptop", description: "网购、电子商务消费" },
                     { id: "transport", text: "交通汽油", icon: "fas fa-gas-pump", description: "公共交通、汽油、的士等" },
-                    { id: "entertainment", text: "娛樂消遣", icon: "fas fa-film", description: "電影、演唱會、娛樂活動" }
+                    { id: "entertainment", text: "娱乐消遣", icon: "fas fa-film", description: "电影、演唱会、娱乐活动" }
                 ],
                 multiSelect: true
             },
             {
                 id: 5,
-                text: "您每年旅行次數？",
+                text: "您每年旅行次数？",
                 icon: "fas fa-globe-asia",
                 options: [
-                    { id: "never", text: "從不旅行", icon: "fas fa-home", description: "很少或從不旅行" },
+                    { id: "never", text: "从不旅行", icon: "fas fa-home", description: "很少或从不旅行" },
                     { id: "occasional", text: "1-2 次", icon: "fas fa-suitcase", description: "每年旅行1-2次" },
                     { id: "frequent", text: "3-4 次", icon: "fas fa-passport", description: "每年旅行3-4次" },
                     { id: "veryfrequent", text: "5+ 次", icon: "fas fa-plane-departure", description: "每年旅行5次或以上" }
@@ -414,157 +681,142 @@
             },
             {
                 id: 6,
-                text: "您最重視邊種額外優惠？",
+                text: "您最重视哪种额外优惠？",
                 icon: "fas fa-gift",
                 options: [
-                    { id: "lounge", text: "機場貴賓室", icon: "fas fa-couch", description: "機場貴賓室使用權" },
-                    { id: "insurance", text: "旅遊保險", icon: "fas fa-shield-alt", description: "全面的旅遊保險保障" },
-                    { id: "dining", text: "餐飲優惠", icon: "fas fa-utensil-spoon", description: "餐廳折扣及餐飲禮遇" },
-                    { id: "installment", text: "免息分期", icon: "fas fa-calendar-alt", description: "免息分期付款計劃" }
+                    { id: "lounge", text: "机场贵宾室", icon: "fas fa-couch", description: "机场贵宾室使用权" },
+                    { id: "insurance", text: "旅游保险", icon: "fas fa-shield-alt", description: "全面的旅游保险保障" },
+                    { id: "dining", text: "餐饮优惠", icon: "fas fa-utensil-spoon", description: "餐厅折扣及餐饮礼遇" },
+                    { id: "installment", text: "免息分期", icon: "fas fa-calendar-alt", description: "免息分期付款计划" }
                 ]
             }
         ];
 
-        // Card recommendations based on provided data
+        // Card recommendations
         const cards = {
-            // 懶人現金回贈信用卡組合
-            "lazy": [
+            // 简单方便型组合
+            "simple": [
                 {
                     name: "渣打Simply Cash",
-                    type: "懶人組合",
-                    description: "一卡走天涯，無上限現金回贈",
+                    type: "简单方便型",
+                    description: "一卡走天下，无上限现金回赠",
                     benefits: [
-                        "所有簽賬都有1.5%無上限現金回贈",
-                        "外幣、本地、網購、食飯或零售全部1.5%",
-                        "銀行牌頭夠大，回贈可直接找卡數"
+                        "所有签账都有1.5%无上限现金回赠",
+                        "外币、本地、网购、餐饮或零售全部1.5%",
+                        "银行品牌可靠，回赠可直接用于卡数还款"
                     ],
-                    note: "保險費用0%回贈"
+                    note: "保险费用0%回赠"
                 },
                 {
                     name: "滙豐EveryMile",
-                    type: "懶人組合",
-                    description: "日常消費高回贈，靈活使用獎賞錢",
+                    type: "简单方便型",
+                    description: "日常消费高回赠，灵活使用奖赏钱",
                     benefits: [
-                        "指定日常消費有2.5%回贈",
-                        "所有零售/食肆/網購/外幣海外簽賬等簽賬都有1%無上限獎賞錢回贈",
-                        "獎賞錢Reward Cash可以找卡數，換嘢換里數都好用"
+                        "指定日常消费有2.5%回赠",
+                        "零售/食肆/网购/外币签账都有1%无上限奖赏钱",
+                        "奖赏钱可找卡数、换礼品或兑换里数"
                     ],
-                    note: "超市消費除外"
+                    note: "超市消费除外"
                 },
                 {
                     name: "Mox Credit",
-                    type: "懶人組合",
-                    description: "無上限簽乜都有2%",
+                    type: "简单方便型",
+                    description: "无类别限制的全面回赠",
                     benefits: [
-                        "所有簽賬2%無上限現金回贈",
-                        "簡單易用，無需複雜計算"
+                        "所有签账2%无上限现金回赠",
+                        "简单易用，无需复杂计算",
+                        "无最低消费要求"
                     ],
-                    note: "需在Mox活期戶口保持HK$250,000存款"
+                    note: "需在Mox活期户口保持HK$250,000存款"
                 }
             ],
             
-            // 不過不失現金回贈信用卡組合
+            // 平衡优化型组合
             "balanced": [
                 {
-                    name: "滙豐Visa Signature (賞滋味)",
-                    type: "不過不失組合",
-                    description: "餐飲消費高回贈",
+                    name: "滙豐Visa Signature (赏滋味)",
+                    type: "平衡优化型",
+                    description: "餐饮消费高回赠",
                     benefits: [
-                        "餐飲消費3.6%現金回贈",
-                        "每曆年首HK$100,000適用"
+                        "餐饮消费3.6%现金回赠",
+                        "每年首HK$100,000适用",
+                        "配合Red卡使用更全面"
                     ]
                 },
                 {
                     name: "滙豐Red",
-                    type: "不過不失組合",
-                    description: "網購消費首選",
+                    type: "平衡优化型",
+                    description: "网购消费首选",
                     benefits: [
-                        "網上購物4%現金回贈",
-                        "每曆月首HK$10,000適用"
-                    ]
-                },
-                {
-                    name: "滙豐Visa Signature (賞世界)",
-                    type: "不過不失組合",
-                    description: "外幣消費最佳選擇",
-                    benefits: [
-                        "外幣簽賬3.6%現金回贈",
-                        "每曆年首HK$100,000適用"
+                        "网上购物4%现金回赠",
+                        "每月首HK$10,000适用",
+                        "简单易用的现金回赠"
                     ]
                 },
                 {
                     name: "滙豐easy卡",
-                    type: "不過不失組合",
-                    description: "超市購物高回贈",
+                    type: "平衡优化型",
+                    description: "超市购物高回赠",
                     benefits: [
-                        "超市消費4.8%現金回贈",
+                        "超市消费4.8%现金回赠",
                         "百佳/屈臣氏指定日子92折",
-                        "每曆年HK$100,000上限"
+                        "每年HK$100,000上限"
                     ]
                 },
                 {
-                    name: "Mox Credit",
-                    type: "不過不失組合",
-                    description: "超市消費無上限回贈",
+                    name: "滙豐Visa Signature (赏世界)",
+                    type: "平衡优化型",
+                    description: "外币消费最佳选择",
                     benefits: [
-                        "超市消費3%現金回贈",
-                        "無上限，無需計算"
-                    ],
-                    note: "需在Mox活期戶口保持HK$250,000存款"
+                        "外币签账3.6%现金回赠",
+                        "每年首HK$100,000适用",
+                        "海外消费首选"
+                    ]
                 }
             ],
             
-            // 卡L現金回贈信用卡組合
-            "enthusiast": [
+            // 极致回赠型组合
+            "max": [
                 {
                     name: "AEON Card Purple",
-                    type: "卡L組合",
-                    description: "餐飲消費高回贈",
+                    type: "极致回赠型",
+                    description: "餐饮消费高回赠",
                     benefits: [
-                        "餐飲消費6%現金回贈",
-                        "需登記並以手機支付",
-                        "每曆月上限HK$1,786"
+                        "餐饮消费6%现金回赠",
+                        "需登记并以手机支付",
+                        "每月上限HK$1,786"
                     ],
-                    note: "不包括網上平台"
+                    note: "不包括网上平台"
                 },
                 {
                     name: "中信Citic Motion",
-                    type: "卡L組合",
-                    description: "網上購物高回贈",
+                    type: "极致回赠型",
+                    description: "网购消费高回赠",
                     benefits: [
-                        "網購消費6%現金回贈",
-                        "每曆月結單首HK$3,636適用",
-                        "每月最少簽HK$3,800"
+                        "网购消费6%现金回赠",
+                        "每月结单首HK$3,636适用",
+                        "每月最少签HK$3,800"
                     ]
                 },
                 {
                     name: "恒生Travel+",
-                    type: "卡L組合",
-                    description: "外幣簽賬高回贈",
+                    type: "极致回赠型",
+                    description: "外币签账高回赠",
                     benefits: [
-                        "日本/韓國/泰國/新加坡/澳洲簽賬7%",
-                        "其他外幣簽賬5%",
-                        "每曆月首HK$7,576適用",
-                        "月下限HK$6,000"
-                    ]
+                        "特定国家签账7%",
+                        "其他外币签账5%",
+                        "每月首HK$7,576适用"
+                    ],
+                    note: "每月最低消费HK$6,000"
                 },
                 {
                     name: "DBS Compass Visa",
-                    type: "卡L組合",
-                    description: "超市消費最高回贈",
+                    type: "极致回赠型",
+                    description: "超市消费最高回赠",
                     benefits: [
-                        "逢星期三單筆簽賬滿HK$300有8%回贈",
-                        "每曆月上限HK$2,000",
-                        "超市消費最佳選擇"
-                    ]
-                },
-                {
-                    name: "中銀SOGO",
-                    type: "卡L組合",
-                    description: "手機支付高回贈",
-                    benefits: [
-                        "Apple Pay支付5.4%現金回贈",
-                        "每曆月首HK$2,000適用"
+                        "周三单笔满HK$300有8%回赠",
+                        "每月上限HK$2,000",
+                        "超市消费最佳选择"
                     ]
                 }
             ]
@@ -595,7 +847,7 @@
                 optionsHTML += `
                     <div class="option" data-id="${option.id}">
                         <i class="${option.icon}"></i>
-                        <div>
+                        <div class="option-content">
                             <strong>${option.text}</strong>
                             <p>${option.description}</p>
                         </div>
@@ -633,11 +885,11 @@
             
             // Update button text for last question
             if (index === maxQuestions - 1) {
-                document.getElementById('nextBtn').innerHTML = '查看結果 <i class="fas fa-check"></i>';
+                document.getElementById('nextBtn').innerHTML = '查看结果 <i class="fas fa-check"></i>';
                 document.getElementById('nextBtn').classList.add('btn-submit');
                 document.getElementById('nextBtn').classList.remove('btn-next');
             } else {
-                document.getElementById('nextBtn').innerHTML = '下一題 <i class="fas fa-arrow-right"></i>';
+                document.getElementById('nextBtn').innerHTML = '下一题 <i class="fas fa-arrow-right"></i>';
                 document.getElementById('nextBtn').classList.add('btn-next');
                 document.getElementById('nextBtn').classList.remove('btn-submit');
             }
@@ -658,7 +910,7 @@
             if (questions[currentQuestion].multiSelect) {
                 const selected = document.querySelectorAll('.option.selected');
                 if (selected.length === 0) {
-                    alert("請選擇至少一個消費類別");
+                    alert("请选择至少一个消费类别");
                     return;
                 }
                 
@@ -667,7 +919,7 @@
             } 
             // For other questions
             else if (!userAnswers[questions[currentQuestion].id]) {
-                alert("請選擇一個答案");
+                alert("请选择一个答案");
                 return;
             }
             
@@ -699,23 +951,27 @@
             document.getElementById('resultContainer').style.display = 'block';
             
             // Determine card type based on question 2
-            const cardType = userAnswers[2] || "balanced";
-            let cardTypeName = "";
+            const preferenceType = userAnswers[2] || "balanced";
+            let preferenceName = "";
+            let preferenceDescription = "";
             
-            switch(cardType) {
-                case "lazy":
-                    cardTypeName = "懶人組合";
+            switch(preferenceType) {
+                case "simple":
+                    preferenceName = "简单方便型";
+                    preferenceDescription = "您偏好简单方便的信用卡使用方式，希望一卡搞定所有消费，无需复杂管理和计算。";
                     break;
                 case "balanced":
-                    cardTypeName = "不過不失組合";
+                    preferenceName = "平衡优化型";
+                    preferenceDescription = "您愿意花少量时间优化不同消费类别，在便利性和回赠率之间取得平衡。";
                     break;
-                case "enthusiast":
-                    cardTypeName = "卡L組合";
+                case "max":
+                    preferenceName = "极致回赠型";
+                    preferenceDescription = "您愿意投入时间研究信用卡优惠，追求最高回赠率，不介意管理多张信用卡。";
                     break;
             }
             
             // Get recommended cards
-            const recommendedCards = cards[cardType];
+            const recommendedCards = cards[preferenceType];
             
             // Build card recommendations HTML
             let cardsHTML = "";
@@ -726,30 +982,35 @@
                     benefitsHTML += `
                         <div class="benefit-item">
                             <i class="fas fa-check-circle"></i>
-                            <div>${benefit}</div>
+                            <div class="benefit-text">${benefit}</div>
                         </div>
                     `;
                 });
                 
                 // Add note if exists
-                let noteHTML = card.note ? `<p><i class="fas fa-exclamation-circle"></i> <strong>注意:</strong> ${card.note}</p>` : "";
+                let noteHTML = card.note ? `
+                    <div class="card-note">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>注意：</strong> ${card.note}
+                    </div>
+                ` : "";
                 
                 // Add card type tag
                 let tagClass = "";
                 let tagText = "";
                 
                 switch(card.type) {
-                    case "懶人組合":
-                        tagClass = "lazy-tag";
-                        tagText = "懶人組合";
+                    case "简单方便型":
+                        tagClass = "simple-tag";
+                        tagText = "简单方便型";
                         break;
-                    case "不過不失組合":
+                    case "平衡优化型":
                         tagClass = "balanced-tag";
-                        tagText = "不過不失組合";
+                        tagText = "平衡优化型";
                         break;
-                    case "卡L組合":
-                        tagClass = "enthusiast-tag";
-                        tagText = "卡L組合";
+                    case "极致回赠型":
+                        tagClass = "max-tag";
+                        tagText = "极致回赠型";
                         break;
                 }
                 
@@ -757,24 +1018,30 @@
                     <div class="card-recommendation">
                         <div class="card-type-tag ${tagClass}">${tagText}</div>
                         <h3 class="card-title"><i class="fas fa-credit-card"></i> ${card.name}</h3>
-                        <p><strong>${card.description}</strong></p>
+                        <p class="card-description">${card.description}</p>
                         
                         <div class="card-benefits">
-                            <h4><i class="fas fa-star"></i> 主要優點：</h4>
+                            <h4><i class="fas fa-gift"></i> 主要优点：</h4>
                             ${benefitsHTML}
                         </div>
                         
                         ${noteHTML}
                         
-                        <button class="apply-btn"><i class="fas fa-arrow-right"></i> 立即申請</button>
+                        <button class="apply-btn"><i class="fas fa-arrow-right"></i> 立即申请</button>
                     </div>
                 `;
             });
             
             // Display recommendation
             const resultHTML = `
-                <h3>根據您的選擇，您屬於：<span style="color:#1a2980;font-weight:bold">${cardTypeName}</span></h3>
-                <p>以下是最適合您的信用卡推薦：</p>
+                <div style="background: linear-gradient(to right, #f0f7ff, #e6f0ff); padding: 25px; border-radius: 15px; margin-bottom: 30px;">
+                    <h3 style="color: #1a2980; font-size: 1.6rem; margin-bottom: 15px; text-align: center;">
+                        您的信用卡使用偏好：<span style="color: #26d0ce;">${preferenceName}</span>
+                    </h3>
+                    <p style="font-size: 1.15rem; text-align: center; color: #2c3e50; max-width: 700px; margin: 0 auto; line-height: 1.7;">
+                        ${preferenceDescription} 以下是专为您推荐的最佳信用卡组合：
+                    </p>
+                </div>
                 ${cardsHTML}
             `;
             
