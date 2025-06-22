@@ -3,158 +3,799 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>棠棠揀嘢食</title>
+    <title>信用卡推薦助手 - 找到最適合您的信用卡</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif; /* 字體 */
-            background-color: #c8245f; /* 背景顏色 */
-            color: #333; /* 文字顏色 */
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        h1 {
-            text-align: center;
-            color: white; /* 標題顏色 */
-            font-size: 40px;
-        }
-        .menu-category {
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
             margin: 20px 0;
-            border: 1px solid #ccc; /* 邊框 */
-            padding: 10px;
-            border-radius: 10px; /* 圓角邊框 */
-            background-color: #ffffff; /* 類別背景顏色 */
         }
-        .menu-item {
-            margin: 5px 0;
+        
+        header {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
         }
-        button {
-            background-color: #3498db;
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .progress-container {
+            background: #e0e0e0;
+            height: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question-container {
+            padding: 30px;
+            min-height: 350px;
+        }
+        
+        .question {
+            margin-bottom: 30px;
+        }
+        
+        .question h3 {
+            font-size: 1.4rem;
+            color: #1a2980;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .question h3 i {
+            margin-right: 10px;
+            color: #26d0ce;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .option {
+            background: #f5f9ff;
+            border: 2px solid #d0e4ff;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background: #e1edff;
+            border-color: #1a2980;
+            transform: translateY(-3px);
+        }
+        
+        .option.selected {
+            background: #d0e4ff;
+            border-color: #1a2980;
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.2);
+        }
+        
+        .option i {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #1a2980;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: #f8f9ff;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-prev {
+            background: #f1f1f1;
+            color: #555;
+        }
+        
+        .btn-prev:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-next {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: linear-gradient(to right, #15216d, #1fbdb8);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background: linear-gradient(to right, #009982, #7db32e);
+            box-shadow: 0 5px 15px rgba(0, 176, 155, 0.4);
+        }
+        
+        .result-container {
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+        
+        .result-header {
+            color: #1a2980;
+            margin-bottom: 25px;
+        }
+        
+        .result-header i {
+            font-size: 4rem;
+            color: #00b09b;
+            margin-bottom: 15px;
+        }
+        
+        .card-recommendation {
+            background: linear-gradient(to right, #f5f9ff, #e1edff);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px auto;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            border-left: 5px solid #1a2980;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            color: #1a2980;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+            color: #26d0ce;
+        }
+        
+        .card-benefits {
+            margin: 20px 0;
+        }
+        
+        .benefit-item {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .benefit-item i {
+            color: #00b09b;
+            margin-right: 10px;
+            min-width: 24px;
+        }
+        
+        .apply-btn {
+            background: linear-gradient(to right, #ff8c00, #ff5500);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .apply-btn:hover {
+            background: linear-gradient(to right, #e67e00, #e64d00);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+        
+        .restart-btn {
+            background: #1a2980;
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
+            font-size: 1rem;
             cursor: pointer;
-            font-size: 18px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
         }
-        button:hover {
-            background-color: #2980b9; /* 懸停時按鈕顏色 */
+        
+        .restart-btn:hover {
+            background: #15216d;
+        }
+        
+        .footer {
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .card-type-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .lazy-tag {
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            color: white;
+        }
+        
+        .balanced-tag {
+            background: linear-gradient(to right, #2196F3, #03A9F4);
+            color: white;
+        }
+        
+        .enthusiast-tag {
+            background: linear-gradient(to right, #FF9800, #FF5722);
+            color: white;
+        }
+        
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-container, .result-container {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <h1>棠棠揀嘢食</h1>
-
-    <div class="menu-category">
-        <h2>主菜 (可選擇多個)</h2>
-        <div class="menu-item"><input type="checkbox" id="dishA" name="mainDish" value="三文魚魚魚"> <label for="dishA">三文魚魚魚</label></div>
-        <div class="menu-item"><input type="checkbox" id="dishB" name="mainDish" value="傻仔牛柳粒"> <label for="dishB">傻仔牛柳粒</label></div>
-        <div class="menu-item"><input type="checkbox" id="dishC" name="mainDish" value="炸雞仔"> <label for="dishC">炸雞仔</label></div>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-credit-card"></i> 信用卡推薦助手</h1>
+            <p>只需回答6條問題，我們將為您推薦最適合的信用卡</p>
+        </header>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="question-container" id="questionContainer">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+        
+        <div class="button-container">
+            <button class="btn btn-prev" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> 上一題</button>
+            <button class="btn btn-next" id="nextBtn">下一題 <i class="fas fa-arrow-right"></i></button>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <div class="result-header">
+                <i class="fas fa-medal"></i>
+                <h2>為您推薦的最佳信用卡</h2>
+                <p>根據您的消費習慣和偏好，我們為您推薦以下信用卡：</p>
+            </div>
+            
+            <div class="card-recommendation" id="recommendedCard">
+                <!-- Recommendation will be inserted here -->
+            </div>
+            
+            <button class="restart-btn" id="restartBtn"><i class="fas fa-redo"></i> 重新開始</button>
+        </div>
     </div>
-
-    <div class="menu-category">
-        <h2>主菜 </h2>
-        <div class="menu-item"><input type="checkbox" id="toppingC" name="topping" value="香椒麵"> <label for="toppingC">香椒麵</label></div>
-        <div class="menu-item"><input type="checkbox" id="toppingD" name="topping" value="芝士麵"> <label for="toppingD">芝士麵</label></div>
-        <div class="menu-item"><input type="checkbox" id="toppingE" name="topping" value="辛辣麵"> <label for="toppingE">辛辣麵</label></div>
+    
+    <div class="footer">
+        <p>© 2025 信用卡推薦助手 | 為您找到最合適的信用卡</p>
     </div>
-
-    <div class="menu-category">
-        <h2>飲品 (可選擇多個)</h2>
-        <div class="menu-item"><input type="checkbox" id="drinkF" name="drink" value="果然系"> <label for="drinkF">果然系</label></div>
-        <div class="menu-item"><input type="checkbox" id="drinkG" name="drink" value="檸檬可樂"> <label for="drinkG">檸檬可樂</label></div>
-        <div class="menu-item"><input type="checkbox" id="drinkH" name="drink" value="水"> <label for="drinkH">水</label></div>
-    </div>
-
-    <!-- 提交訂單按鈕 -->
-    <button onclick="submitOrder()">提交訂單</button>
-    <!-- 發送按鈕 -->
-    <button onclick="sendOrder()">發送選擇</button>
 
     <script>
-        function submitOrder() {
-            let mainDishes = [];
-            let toppings = [];
-            let drinks = [];
-
-            // 獲取主菜選擇
-            const mainDishCheckboxes = document.querySelectorAll('input[name="mainDish"]:checked');
-            mainDishCheckboxes.forEach((checkbox) => {
-                mainDishes.push(checkbox.value);
-            });
-
-            // 獲取配料選擇
-            const toppingCheckboxes = document.querySelectorAll('input[name="topping"]:checked');
-            toppingCheckboxes.forEach((checkbox) => {
-                toppings.push(checkbox.value);
-            });
-
-            // 獲取飲品選擇
-            const drinkCheckboxes = document.querySelectorAll('input[name="drink"]:checked');
-            drinkCheckboxes.forEach((checkbox) => {
-                drinks.push(checkbox.value);
-            });
-
-            // 構建訂單信息
-            const orderInfo = {
-                mainDishes: mainDishes.join(", "),
-                toppings: toppings.join(", "),
-                drinks: drinks.join(", ")
-            };
-
-            // 在這裡顯示訂單信息（或發送到伺服器）
-            alert("您的訂單已提交！\n主菜: " + orderInfo.mainDishes + "\n配料: " + orderInfo.toppings + "\n飲品: " + orderInfo.drinks);
-        }
-
-        async function sendOrder() {
-            let mainDishes = [];
-            let toppings = [];
-            let drinks = [];
-
-            // 獲取主菜選擇
-            const mainDishCheckboxes = document.querySelectorAll('input[name="mainDish"]:checked');
-            mainDishCheckboxes.forEach((checkbox) => {
-                mainDishes.push(checkbox.value);
-            });
-
-            // 獲取配料選擇
-            const toppingCheckboxes = document.querySelectorAll('input[name="topping"]:checked');
-            toppingCheckboxes.forEach((checkbox) => {
-                toppings.push(checkbox.value);
-            });
-
-            // 獲取飲品選擇
-            const drinkCheckboxes = document.querySelectorAll('input[name="drink"]:checked');
-            drinkCheckboxes.forEach((checkbox) => {
-                drinks.push(checkbox.value);
-            });
-
-            // 構建訂單信息
-            const orderInfo = {
-                mainDishes: mainDishes.join(", "),
-                toppings: toppings.join(", "),
-                drinks: drinks.join(", ")
-            };
-
-            // 發送訂單信息到 GitHub Actions
-            const response = await fetch('https://api.github.com/repos/ElvisC122/food-ordering-website/actions/workflows/notification.yml/dispatches', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Authorization': `token ${ggg_TOKEN}`
-                },
-                body: JSON.stringify({
-                    event_type: 'send-email',
-                    client_payload: orderInfo
-                })
-            });
-
-            if (response.ok) {
-                alert('選擇已發送到你的郵箱！');
-            } else {
-                alert('發送郵件時出錯。');
+        // Questions data
+        const questions = [
+            {
+                id: 1,
+                text: "您係「現金回贈」定「飛行里數」派？",
+                icon: "fas fa-money-bill-wave",
+                options: [
+                    { id: "cash", text: "現金回贈派", icon: "fas fa-coins", description: "喜歡直接獲得現金回贈" },
+                    { id: "miles", text: "飛行里數派", icon: "fas fa-plane", description: "喜歡累積飛行里數兌換機票" }
+                ]
+            },
+            {
+                id: 2,
+                text: "你認為你是否懶人，還是願意花時間在卡上？",
+                icon: "fas fa-user-clock",
+                options: [
+                    { id: "lazy", text: "懶人派", icon: "fas fa-couch", description: "希望簡單無腦，不想花時間管理多張卡" },
+                    { id: "balanced", text: "中間路線", icon: "fas fa-balance-scale", description: "願意花少量時間，但不想太複雜" },
+                    { id: "enthusiast", text: "卡L/卡仔", icon: "fas fa-brain", description: "願意花時間研究，追求最高回贈" }
+                ]
+            },
+            {
+                id: 3,
+                text: "您每月平均信用卡消費金額係？",
+                icon: "fas fa-shopping-cart",
+                options: [
+                    { id: "low", text: "少於 HKD 5,000", icon: "fas fa-wallet", description: "每月消費低於5,000元" },
+                    { id: "medium", text: "HKD 5,000 - 15,000", icon: "fas fa-credit-card", description: "每月消費5,000-15,000元" },
+                    { id: "high", text: "HKD 15,000 - 30,000", icon: "fas fa-chart-line", description: "每月消費15,000-30,000元" },
+                    { id: "vhigh", text: "多於 HKD 30,000", icon: "fas fa-gem", description: "每月消費超過30,000元" }
+                ]
+            },
+            {
+                id: 4,
+                text: "您最高消費嘅 3 個類別係？",
+                icon: "fas fa-list",
+                options: [
+                    { id: "dining", text: "餐飲美食", icon: "fas fa-utensils", description: "餐廳、咖啡店等飲食消費" },
+                    { id: "groceries", text: "超市雜貨", icon: "fas fa-shopping-basket", description: "超市、日常用品購物" },
+                    { id: "travel", text: "旅遊消費", icon: "fas fa-suitcase-rolling", description: "機票、酒店、旅行團等" },
+                    { id: "online", text: "網上購物", icon: "fas fa-laptop", description: "網購、電子商務消費" },
+                    { id: "transport", text: "交通汽油", icon: "fas fa-gas-pump", description: "公共交通、汽油、的士等" },
+                    { id: "entertainment", text: "娛樂消遣", icon: "fas fa-film", description: "電影、演唱會、娛樂活動" }
+                ],
+                multiSelect: true
+            },
+            {
+                id: 5,
+                text: "您每年旅行次數？",
+                icon: "fas fa-globe-asia",
+                options: [
+                    { id: "never", text: "從不旅行", icon: "fas fa-home", description: "很少或從不旅行" },
+                    { id: "occasional", text: "1-2 次", icon: "fas fa-suitcase", description: "每年旅行1-2次" },
+                    { id: "frequent", text: "3-4 次", icon: "fas fa-passport", description: "每年旅行3-4次" },
+                    { id: "veryfrequent", text: "5+ 次", icon: "fas fa-plane-departure", description: "每年旅行5次或以上" }
+                ]
+            },
+            {
+                id: 6,
+                text: "您最重視邊種額外優惠？",
+                icon: "fas fa-gift",
+                options: [
+                    { id: "lounge", text: "機場貴賓室", icon: "fas fa-couch", description: "機場貴賓室使用權" },
+                    { id: "insurance", text: "旅遊保險", icon: "fas fa-shield-alt", description: "全面的旅遊保險保障" },
+                    { id: "dining", text: "餐飲優惠", icon: "fas fa-utensil-spoon", description: "餐廳折扣及餐飲禮遇" },
+                    { id: "installment", text: "免息分期", icon: "fas fa-calendar-alt", description: "免息分期付款計劃" }
+                ]
             }
-        }
-    </script>
+        ];
 
+        // Card recommendations based on provided data
+        const cards = {
+            // 懶人現金回贈信用卡組合
+            "lazy": [
+                {
+                    name: "渣打Simply Cash",
+                    type: "懶人組合",
+                    description: "一卡走天涯，無上限現金回贈",
+                    benefits: [
+                        "所有簽賬都有1.5%無上限現金回贈",
+                        "外幣、本地、網購、食飯或零售全部1.5%",
+                        "銀行牌頭夠大，回贈可直接找卡數"
+                    ],
+                    note: "保險費用0%回贈"
+                },
+                {
+                    name: "滙豐EveryMile",
+                    type: "懶人組合",
+                    description: "日常消費高回贈，靈活使用獎賞錢",
+                    benefits: [
+                        "指定日常消費有2.5%回贈",
+                        "所有零售/食肆/網購/外幣海外簽賬等簽賬都有1%無上限獎賞錢回贈",
+                        "獎賞錢Reward Cash可以找卡數，換嘢換里數都好用"
+                    ],
+                    note: "超市消費除外"
+                },
+                {
+                    name: "Mox Credit",
+                    type: "懶人組合",
+                    description: "無上限簽乜都有2%",
+                    benefits: [
+                        "所有簽賬2%無上限現金回贈",
+                        "簡單易用，無需複雜計算"
+                    ],
+                    note: "需在Mox活期戶口保持HK$250,000存款"
+                }
+            ],
+            
+            // 不過不失現金回贈信用卡組合
+            "balanced": [
+                {
+                    name: "滙豐Visa Signature (賞滋味)",
+                    type: "不過不失組合",
+                    description: "餐飲消費高回贈",
+                    benefits: [
+                        "餐飲消費3.6%現金回贈",
+                        "每曆年首HK$100,000適用"
+                    ]
+                },
+                {
+                    name: "滙豐Red",
+                    type: "不過不失組合",
+                    description: "網購消費首選",
+                    benefits: [
+                        "網上購物4%現金回贈",
+                        "每曆月首HK$10,000適用"
+                    ]
+                },
+                {
+                    name: "滙豐Visa Signature (賞世界)",
+                    type: "不過不失組合",
+                    description: "外幣消費最佳選擇",
+                    benefits: [
+                        "外幣簽賬3.6%現金回贈",
+                        "每曆年首HK$100,000適用"
+                    ]
+                },
+                {
+                    name: "滙豐easy卡",
+                    type: "不過不失組合",
+                    description: "超市購物高回贈",
+                    benefits: [
+                        "超市消費4.8%現金回贈",
+                        "百佳/屈臣氏指定日子92折",
+                        "每曆年HK$100,000上限"
+                    ]
+                },
+                {
+                    name: "Mox Credit",
+                    type: "不過不失組合",
+                    description: "超市消費無上限回贈",
+                    benefits: [
+                        "超市消費3%現金回贈",
+                        "無上限，無需計算"
+                    ],
+                    note: "需在Mox活期戶口保持HK$250,000存款"
+                }
+            ],
+            
+            // 卡L現金回贈信用卡組合
+            "enthusiast": [
+                {
+                    name: "AEON Card Purple",
+                    type: "卡L組合",
+                    description: "餐飲消費高回贈",
+                    benefits: [
+                        "餐飲消費6%現金回贈",
+                        "需登記並以手機支付",
+                        "每曆月上限HK$1,786"
+                    ],
+                    note: "不包括網上平台"
+                },
+                {
+                    name: "中信Citic Motion",
+                    type: "卡L組合",
+                    description: "網上購物高回贈",
+                    benefits: [
+                        "網購消費6%現金回贈",
+                        "每曆月結單首HK$3,636適用",
+                        "每月最少簽HK$3,800"
+                    ]
+                },
+                {
+                    name: "恒生Travel+",
+                    type: "卡L組合",
+                    description: "外幣簽賬高回贈",
+                    benefits: [
+                        "日本/韓國/泰國/新加坡/澳洲簽賬7%",
+                        "其他外幣簽賬5%",
+                        "每曆月首HK$7,576適用",
+                        "月下限HK$6,000"
+                    ]
+                },
+                {
+                    name: "DBS Compass Visa",
+                    type: "卡L組合",
+                    description: "超市消費最高回贈",
+                    benefits: [
+                        "逢星期三單筆簽賬滿HK$300有8%回贈",
+                        "每曆月上限HK$2,000",
+                        "超市消費最佳選擇"
+                    ]
+                },
+                {
+                    name: "中銀SOGO",
+                    type: "卡L組合",
+                    description: "手機支付高回贈",
+                    benefits: [
+                        "Apple Pay支付5.4%現金回贈",
+                        "每曆月首HK$2,000適用"
+                    ]
+                }
+            ]
+        };
+
+        // User answers storage
+        let userAnswers = {};
+        let currentQuestion = 0;
+        const maxQuestions = questions.length;
+
+        // Initialize the app
+        function init() {
+            showQuestion(currentQuestion);
+            updateProgressBar();
+            
+            // Event listeners
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+            document.getElementById('prevBtn').addEventListener('click', prevQuestion);
+            document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+        }
+
+        // Show current question
+        function showQuestion(index) {
+            const question = questions[index];
+            let optionsHTML = '';
+            
+            question.options.forEach(option => {
+                optionsHTML += `
+                    <div class="option" data-id="${option.id}">
+                        <i class="${option.icon}"></i>
+                        <div>
+                            <strong>${option.text}</strong>
+                            <p>${option.description}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const questionHTML = `
+                <div class="question">
+                    <h3><i class="${question.icon}"></i> ${question.text}</h3>
+                    <div class="options" id="optionsContainer">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('questionContainer').innerHTML = questionHTML;
+            
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', () => {
+                    // For multi-select questions
+                    if (question.multiSelect) {
+                        option.classList.toggle('selected');
+                    } else {
+                        // For single-select questions
+                        document.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        option.classList.add('selected');
+                        userAnswers[question.id] = option.dataset.id;
+                    }
+                });
+            });
+            
+            // Update button text for last question
+            if (index === maxQuestions - 1) {
+                document.getElementById('nextBtn').innerHTML = '查看結果 <i class="fas fa-check"></i>';
+                document.getElementById('nextBtn').classList.add('btn-submit');
+                document.getElementById('nextBtn').classList.remove('btn-next');
+            } else {
+                document.getElementById('nextBtn').innerHTML = '下一題 <i class="fas fa-arrow-right"></i>';
+                document.getElementById('nextBtn').classList.add('btn-next');
+                document.getElementById('nextBtn').classList.remove('btn-submit');
+            }
+            
+            // Update previous button state
+            document.getElementById('prevBtn').disabled = index === 0;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentQuestion) / maxQuestions) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        // Next question
+        function nextQuestion() {
+            // For multi-select questions (question 4)
+            if (questions[currentQuestion].multiSelect) {
+                const selected = document.querySelectorAll('.option.selected');
+                if (selected.length === 0) {
+                    alert("請選擇至少一個消費類別");
+                    return;
+                }
+                
+                const selectedIds = Array.from(selected).map(el => el.dataset.id);
+                userAnswers[questions[currentQuestion].id] = selectedIds;
+            } 
+            // For other questions
+            else if (!userAnswers[questions[currentQuestion].id]) {
+                alert("請選擇一個答案");
+                return;
+            }
+            
+            // If last question, show results
+            if (currentQuestion === maxQuestions - 1) {
+                showResults();
+                return;
+            }
+            
+            currentQuestion++;
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        // Previous question
+        function prevQuestion() {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        // Show results
+        function showResults() {
+            // Hide question container and buttons
+            document.getElementById('questionContainer').style.display = 'none';
+            document.querySelector('.button-container').style.display = 'none';
+            
+            // Show result container
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // Determine card type based on question 2
+            const cardType = userAnswers[2] || "balanced";
+            let cardTypeName = "";
+            
+            switch(cardType) {
+                case "lazy":
+                    cardTypeName = "懶人組合";
+                    break;
+                case "balanced":
+                    cardTypeName = "不過不失組合";
+                    break;
+                case "enthusiast":
+                    cardTypeName = "卡L組合";
+                    break;
+            }
+            
+            // Get recommended cards
+            const recommendedCards = cards[cardType];
+            
+            // Build card recommendations HTML
+            let cardsHTML = "";
+            
+            recommendedCards.forEach(card => {
+                let benefitsHTML = "";
+                card.benefits.forEach(benefit => {
+                    benefitsHTML += `
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>${benefit}</div>
+                        </div>
+                    `;
+                });
+                
+                // Add note if exists
+                let noteHTML = card.note ? `<p><i class="fas fa-exclamation-circle"></i> <strong>注意:</strong> ${card.note}</p>` : "";
+                
+                // Add card type tag
+                let tagClass = "";
+                let tagText = "";
+                
+                switch(card.type) {
+                    case "懶人組合":
+                        tagClass = "lazy-tag";
+                        tagText = "懶人組合";
+                        break;
+                    case "不過不失組合":
+                        tagClass = "balanced-tag";
+                        tagText = "不過不失組合";
+                        break;
+                    case "卡L組合":
+                        tagClass = "enthusiast-tag";
+                        tagText = "卡L組合";
+                        break;
+                }
+                
+                cardsHTML += `
+                    <div class="card-recommendation">
+                        <div class="card-type-tag ${tagClass}">${tagText}</div>
+                        <h3 class="card-title"><i class="fas fa-credit-card"></i> ${card.name}</h3>
+                        <p><strong>${card.description}</strong></p>
+                        
+                        <div class="card-benefits">
+                            <h4><i class="fas fa-star"></i> 主要優點：</h4>
+                            ${benefitsHTML}
+                        </div>
+                        
+                        ${noteHTML}
+                        
+                        <button class="apply-btn"><i class="fas fa-arrow-right"></i> 立即申請</button>
+                    </div>
+                `;
+            });
+            
+            // Display recommendation
+            const resultHTML = `
+                <h3>根據您的選擇，您屬於：<span style="color:#1a2980;font-weight:bold">${cardTypeName}</span></h3>
+                <p>以下是最適合您的信用卡推薦：</p>
+                ${cardsHTML}
+            `;
+            
+            document.getElementById('recommendedCard').innerHTML = resultHTML;
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            userAnswers = {};
+            currentQuestion = 0;
+            
+            document.getElementById('resultContainer').style.display = 'none';
+            document.getElementById('questionContainer').style.display = 'block';
+            document.querySelector('.button-container').style.display = 'flex';
+            
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
